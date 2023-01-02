@@ -1,6 +1,7 @@
 package moe.jeremie.owl.terminal
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -17,6 +18,13 @@ class MainConfigActivity : AppCompatActivity() {
     private val TAG = "MainConfigActivity"
 
     private lateinit var binding: ActivityMainConfigBinding
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        Log.v(TAG, "onDestroy")
+
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +52,10 @@ class MainConfigActivity : AppCompatActivity() {
             ).show()
 
             loadConfig()
+        }
+
+        binding.buttonStart.setOnClickListener {
+            startActivity(Intent(this, MainActivity::class.java))
         }
 
         loadConfig()
