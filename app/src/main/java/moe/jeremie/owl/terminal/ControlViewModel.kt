@@ -23,7 +23,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
     private var serverCmdPort: Int
     private var serverSocketAddress: InetSocketAddress
 
-        private var udpSocket: DatagramChannel
+    private var udpSocket: DatagramChannel
 //    private var udpSocket: DatagramSocket
 
     // https://stackoverflow.com/questions/47515997/observing-livedata-from-viewmodel
@@ -36,7 +36,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
         get() = _popupMsg
 
     init {
-        val app = getApplication<Application>()
+        val app = application
         val sharedPref = app.getSharedPreferences(
             app.resources.getString(R.string.config_preference_file_key),
             Context.MODE_PRIVATE
@@ -129,6 +129,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
 //                        serverIp, serverCmdPort
 //                    )
 //                    udpSocket.send(udpPackage)
+                } catch (e: java.net.PortUnreachableException) {
+                    _popupMsg.postValue(application.resources.getString(R.string.PortUnreachableException))
                 } catch (e: java.lang.Exception) {
                     _popupMsg.postValue(e.toString())
 //                    throw e

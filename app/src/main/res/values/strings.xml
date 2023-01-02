@@ -8,6 +8,8 @@
     <string name="SaveConfig">保存配置</string>
     <string name="Reset">重置默认配置</string>
 
+    <string name="PortUnreachableException">网络不可达</string>
+
     <string name="SaveOk">保存成功</string>
     <string name="ResetOk">重置成功</string>
     <string name="Start">开始</string>
