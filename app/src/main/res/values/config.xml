@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="config_preference_file_key">moe.jeremie.owl.terminal.config_preference_file_key</string>
+
+    <string name="config_default_AirplaneIp">127.0.0.1</string>
+    <string name="config_name_AirplaneIp">AirplaneIp</string>
+    <integer name="config_default_PortCmd">23333</integer>
+    <string name="config_name_PortCmd">PortCmd</string>
+    <integer name="config_default_PortImageTcp">23332</integer>
+    <string name="config_name_PortImageTcp">PortImageTcp</string>
+    <integer name="config_default_PortImageHttp">23331</integer>
+    <string name="config_name_PortImageHttp">PortImageHttp</string>
+    <bool name="config_default_UseImageModeHttp">false</bool>
+    <string name="config_name_UseImageModeHttp">UseImageModeHttp</string>
+
+</resources>

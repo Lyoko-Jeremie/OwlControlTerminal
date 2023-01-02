@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">OwlControlTerminal</string>
+    <string name="AirplaneIp">无人机IP</string>
+    <string name="PortCmd">无人机控制端口</string>
+    <string name="PortImageTcp">无人机TCP图像端口</string>
+    <string name="PortImageHttp">无人机Http图像端口</string>
+    <string name="UseImageModeHttp">使用Http图像获取模式</string>
+    <string name="SaveConfig">保存配置</string>
+    <string name="Reset">重置默认配置</string>
+
+    <string name="SaveOk">保存成功</string>
+    <string name="ResetOk">重置成功</string>
+</resources>

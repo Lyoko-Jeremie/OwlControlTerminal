@@ -1,0 +1,113 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'com.google.protobuf'
+    id 'androidx.navigation.safeargs'
+//    id 'androidx.navigation.safeargs.kotlin'
+    id 'kotlin-kapt'
+}
+
+android {
+    namespace 'moe.jeremie.owl.terminal'
+    compileSdk 32
+
+    defaultConfig {
+        applicationId "moe.jeremie.owl.terminal"
+        minSdk 29
+        targetSdk 32
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = '1.8'
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
+
+}
+
+
+dependencies {
+
+    implementation 'androidx.core:core-ktx:1.7.0'
+    implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation 'com.google.android.material:material:1.7.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
+
+
+    implementation 'com.google.protobuf:protobuf-java:3.21.11'
+    implementation 'com.google.protobuf:protobuf-kotlin:3.21.11'
+
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.4'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+
+    // https://developer.android.com/jetpack/androidx/releases/lifecycle
+    def lifecycle_version = "2.5.1"
+    def arch_version = "2.1.0"
+    // ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
+    // ViewModel utilities for Compose
+    implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
+    // LiveData
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
+    // Lifecycles only (without ViewModel or LiveData)
+    implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
+    // Saved state module for ViewModel
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$lifecycle_version"
+    // Annotation processor
+    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycle_version"
+
+
+    // https://developer.android.com/jetpack/androidx/releases/room
+    def room_version = "2.4.3"
+    implementation "androidx.room:room-runtime:$room_version"
+    annotationProcessor "androidx.room:room-compiler:$room_version"
+    // To use Kotlin annotation processing tool (kapt)
+    kapt "androidx.room:room-compiler:$room_version"
+    // To use Kotlin Symbol Processing (KSP)
+//    ksp "androidx.room:room-compiler:$room_version"
+    // optional - RxJava2 support for Room
+    implementation "androidx.room:room-rxjava2:$room_version"
+    // optional - RxJava3 support for Room
+    implementation "androidx.room:room-rxjava3:$room_version"
+    // optional - Guava support for Room, including Optional and ListenableFuture
+    implementation "androidx.room:room-guava:$room_version"
+    // optional - Test helpers
+    testImplementation "androidx.room:room-testing:$room_version"
+    // optional - Paging 3 Integration
+    implementation "androidx.room:room-paging:$room_version"
+
+
+    // https://developer.android.com/jetpack/androidx/releases/navigation
+    def nav_version = "2.5.3"
+    // Java language implementation
+    implementation "androidx.navigation:navigation-fragment:$nav_version"
+    implementation "androidx.navigation:navigation-ui:$nav_version"
+    // Kotlin
+    implementation "androidx.navigation:navigation-fragment-ktx:$nav_version"
+    implementation "androidx.navigation:navigation-ui-ktx:$nav_version"
+    // Feature module Support
+    implementation "androidx.navigation:navigation-dynamic-features-fragment:$nav_version"
+    // Testing Navigation
+    androidTestImplementation "androidx.navigation:navigation-testing:$nav_version"
+    // Jetpack Compose Integration
+    implementation "androidx.navigation:navigation-compose:$nav_version"
+
+}
