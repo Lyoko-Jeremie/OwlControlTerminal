@@ -1,103 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <FrameLayout
-        android:id="@+id/root_frame"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context=".MainActivity">
 
-        <LinearLayout
-            android:id="@+id/camera_image_root"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-            <ImageView
-                android:id="@+id/camera_image_view_1"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:scaleType="fitCenter"
-                android:layout_height="match_parent" />
-            <ImageView
-                android:id="@+id/camera_image_view_2"
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent" />
-
-        </LinearLayout>
-
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <FrameLayout
+            android:id="@+id/root_frame"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/b_up"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="up"
-                app:layout_constraintBottom_toTopOf="@+id/b_down"
-                app:layout_constraintStart_toStartOf="@+id/b_down" />
+            <LinearLayout
+                android:id="@+id/camera_image_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/b_front"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="front"
-                app:layout_constraintBottom_toTopOf="@+id/b_back"
-                app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+                <ImageView
+                    android:id="@+id/camera_image_view_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter" />
 
-            <Button
-                android:id="@+id/b_right"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="right"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                <ImageView
+                    android:id="@+id/camera_image_view_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
 
-            <Button
-                android:id="@+id/b_ccw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="ccw"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent" />
+            </LinearLayout>
 
-            <Button
-                android:id="@+id/b_back"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="back"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-            <Button
-                android:id="@+id/b_cw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="cw"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/b_back" />
+                <Button
+                    android:id="@+id/buttonCamera1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0px"
+                    android:text="Camera1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/b_down"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="down"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/b_right" />
+                <Button
+                    android:id="@+id/buttonCamera2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0px"
+                    android:text="Camera2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <Button
-                android:id="@+id/b_left"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="left"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/b_down" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </FrameLayout>
+                <Button
+                    android:id="@+id/b_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="up"
+                    app:layout_constraintBottom_toTopOf="@+id/b_down"
+                    app:layout_constraintStart_toStartOf="@+id/b_down" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <Button
+                    android:id="@+id/b_front"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="front"
+                    app:layout_constraintBottom_toTopOf="@+id/b_back"
+                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+
+                <Button
+                    android:id="@+id/b_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="right"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <Button
+                    android:id="@+id/b_ccw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="ccw"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/b_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+
+                <Button
+                    android:id="@+id/b_cw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="cw"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/b_back" />
+
+                <Button
+                    android:id="@+id/b_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/b_right" />
+
+                <Button
+                    android:id="@+id/b_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="left"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/b_down" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>
