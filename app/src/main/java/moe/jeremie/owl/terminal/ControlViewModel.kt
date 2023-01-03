@@ -10,15 +10,18 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.launch
 import moe.jeremie.owl.terminal.ImageProtocol.ImageProtocolKotlin.ImageProtocol
+import okhttp3.OkHttpClient
+import okhttp3.Request
 import org.json.JSONObject
 import java.io.*
-import java.net.HttpURLConnection
 import java.net.InetAddress
 import java.net.InetSocketAddress
+import java.net.Socket
 import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.channels.DatagramChannel
 import java.util.concurrent.atomic.AtomicBoolean
+
 
 class ControlViewModel(application: Application) : AndroidViewModel(application) {
 
@@ -27,6 +30,9 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
     private var serverIp: InetAddress
     private var serverCmdPort: Int
     private var serverSocketAddress: InetSocketAddress
+
+    private var portImageHttp: Int
+    private var portImageTcp: Int
 
     private var udpSocket: DatagramChannel
 //    private var udpSocket: DatagramSocket
@@ -41,7 +47,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
 //    val cmdEventFlow: MutableStateFlow<CmdEvent> = MutableStateFlow<CmdEvent>()
 //    val cmdEventLiveData = cmdEventFlow.asLiveData(viewModelScope.coroutineContext)
 
-    private val _popupMsg: MutableLiveData<String> = MutableLiveData<String>("")
+    private val _popupMsg: MutableLiveData<String> = MutableLiveData<String>()
     val popupMsg: LiveData<String>
         get() = _popupMsg
 
@@ -78,7 +84,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
 
         serverSocketAddress = InetSocketAddress(serverIp, serverCmdPort)
 
-        _popupMsg.value = "connect to: ${serverSocketAddress.address}:${serverSocketAddress.port}"
+//        _popupMsg.value = "connect to: ${serverSocketAddress.address}:${serverSocketAddress.port}"
 
         Log.v(TAG, "connect to: ${ip}:${serverCmdPort}")
         Log.v(TAG, "connect to: ${serverSocketAddress.address}:${serverSocketAddress.port}")
@@ -89,12 +95,12 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
 
 //        udpSocket.configureBlocking(false)
 
-        val portImageHttp = sharedPref.getInt(
+        portImageHttp = sharedPref.getInt(
             app.resources.getString(R.string.config_name_PortImageHttp),
             app.resources.getInteger(R.integer.config_default_PortImageHttp)
         ) ?: app.resources.getInteger(R.integer.config_default_PortImageHttp)
 
-        val portImageTcp = sharedPref.getInt(
+        portImageTcp = sharedPref.getInt(
             app.resources.getString(R.string.config_name_PortImageTcp),
             app.resources.getInteger(R.integer.config_default_PortImageTcp)
         ) ?: app.resources.getInteger(R.integer.config_default_PortImageTcp)
@@ -183,60 +189,97 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
     }
 
     fun runImageTcp(app: Application) {
-        var a = ImageProtocol.ImageRequest.newBuilder()
-            .setCameraId(1)
-            .build();
-        a.toByteArray();
+        Log.v(TAG, "runImageTcp")
 
+        try {
+
+            Log.v(TAG, "Socket(serverIp, portImageTcp).use 1")
+            Socket(serverIp, portImageTcp).use { socket ->
+                Log.v(TAG, "Socket(serverIp, portImageTcp).use 2")
+
+                //sends the message to the server
+                val mBufferOut =
+                    PrintWriter(BufferedWriter(OutputStreamWriter(socket.getOutputStream())), true)
+
+                //receives the message which the server sends back
+                val mBufferIn = BufferedReader(InputStreamReader(socket.getInputStream()))
+
+                Log.v(TAG, "socket ${socket.isConnected}")
+
+                val a = ImageProtocol.ImageRequest.newBuilder()
+                    .setCameraId(1)
+                    .build()
+                val ap = a.toString();
+                mBufferOut.write(ap.length)
+                mBufferOut.write(ap)
+
+                mBufferOut.flush()
+                Log.v(TAG, "mBufferOut")
+
+                val ca = CharArray(4)
+                mBufferIn.read(ca, 0, 4)
+
+                val ba = String(ca).toByteArray()
+                val size = ByteBuffer.wrap(ba).int
+                Log.v(TAG, "size $size")
+
+
+            }
+
+        } catch (e: java.lang.Exception) {
+            _popupMsg.postValue(e.toString())
+            Log.v(TAG, e.toString())
+//            throw e
+        }
     }
 
     fun runImageHttp(app: Application) {
+
+        val client = OkHttpClient()
+
         //        Log.v(TAG, "runImageHttp")
         fun getI(num: Int): Boolean {
 //            Log.v(TAG, "getI $num")
-            val urlConnection: HttpURLConnection =
-                when (num) {
-                    1 -> imageHttpUrl1.openConnection() as HttpURLConnection
-                    2 -> imageHttpUrl2.openConnection() as HttpURLConnection
-                    else -> throw Exception("runImageHttp getI $num")
-                };
 
-            urlConnection.connectTimeout = 1 * 1000;
-            urlConnection.readTimeout = 1 * 1000;
 
+            val request: Request = Request.Builder()
+                .url(
+                    when (num) {
+                        1 -> imageHttpUrl1.toString()
+                        2 -> imageHttpUrl2.toString()
+                        else -> throw Exception("runImageHttp getI $num")
+                    }
+                ).build()
+
+            Log.v(TAG, "build")
             try {
-//                Log.v(TAG, "connect 1")
-                urlConnection.connect();
-                Log.v(TAG, "connect 2")
+                client.newCall(request).execute().use { r ->
+                    Log.v(TAG, "execute")
 
-                if (urlConnection.responseCode != 200) {
-                    _popupMsg.postValue("responseCode " + urlConnection.responseCode + " on " + num)
-                    Log.v(TAG, "responseCode " + urlConnection.responseCode + " on " + num)
-                    return@getI false
+                    if (r.code != 200) {
+                        _popupMsg.postValue("responseCode " + r.code + " on " + num)
+                        Log.v(TAG, "responseCode " + r.code + " on " + num)
+                        return@getI false
+                    }
+                    Log.v(TAG, "r.code" + r.code)
+
+                    val b = r.body!!.bytes()
+
+                    // https://stackoverflow.com/questions/13854742/byte-array-of-image-into-imageview
+                    val bmp = BitmapFactory.decodeByteArray(b, 0, b.size)
+
+                    Log.v(TAG, "postValue")
+                    when (num) {
+                        1 -> _bmp1.postValue(bmp)
+                        2 -> _bmp2.postValue(bmp)
+                        else -> throw Exception("runImageHttp getI $num")
+                    }
+
                 }
-                Log.v(TAG, "urlConnection.responseCode" + urlConnection.responseCode)
-
-                val inS: InputStream = BufferedInputStream(urlConnection.inputStream)
-                // same as inS.readBytes()
-                val buffer = ByteArrayOutputStream(maxOf(inS.available(), 1024 * 1024))
-                inS.copyTo(buffer)
-                val b = buffer.toByteArray()
-
-                // https://stackoverflow.com/questions/13854742/byte-array-of-image-into-imageview
-                val bmp = BitmapFactory.decodeByteArray(b, 0, b.size)
-
-                Log.v(TAG, "postValue")
-                when (num) {
-                    1 -> _bmp1.postValue(bmp)
-                    2 -> _bmp2.postValue(bmp)
-                    else -> throw Exception("runImageHttp getI $num")
-                };
-
                 // next read
             } catch (e: Exception) {
                 _popupMsg.postValue(e.toString())
-            } finally {
-                urlConnection.disconnect()
+                Log.v(TAG, e.toString())
             }
             return@getI true
         }

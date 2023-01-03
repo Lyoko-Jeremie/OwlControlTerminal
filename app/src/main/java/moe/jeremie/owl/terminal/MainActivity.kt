@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
         binding.lifecycleOwner = this
 
         controlViewModel.popupMsg.observe(this, Observer {
+            Log.v(TAG, "popupMsg $it")
             Snackbar.make(
                 binding.rootConstraintLayout,
                 it,
