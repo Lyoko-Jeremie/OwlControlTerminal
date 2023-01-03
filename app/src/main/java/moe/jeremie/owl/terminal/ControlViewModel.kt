@@ -212,10 +212,50 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
             return result
         }
 
+        fun getI(num: Int, sOut: DataOutputStream, sIn: DataInputStream): Boolean {
+            val a = ImageProtocol.ImageRequest.newBuilder()
+                .setCameraId(num)
+                .build()
+            val ap = a.toByteArray()
+
+            // https://stackoverflow.com/questions/1436942/sending-int-through-socket-in-java
+            sOut.writeInt(ap.size)
+            sOut.write(ap)
+
+            sOut.flush()
+            Log.v(TAG, "mBufferOut")
+
+            // https://stackoverflow.com/questions/35002458/parsing-int-from-the-start-of-a-byte-from-a-socket
+            val size = sIn.readInt()
+            val len = Integer.reverseBytes(size)
+            assert(len < 1 shl 24)
+            Log.v(TAG, "size $size")
+
+            if (len == 0) {
+                return@getI false
+            }
+
+            val b = ByteArray(len)
+            sIn.readFully(b)
+
+            // https://stackoverflow.com/questions/13854742/byte-array-of-image-into-imageview
+            val bmp = BitmapFactory.decodeByteArray(b, 0, b.size)
+
+            Log.v(TAG, "postValue")
+            when (num) {
+                1 -> _bmp1.postValue(bmp)
+                2 -> _bmp2.postValue(bmp)
+                else -> throw Exception("runImageHttp getI $num")
+            }
+
+            return@getI true
+        }
+
         try {
 
             Log.v(TAG, "Socket(serverIp, portImageTcp).use 1")
             Socket(serverIp, portImageTcp).use { socket ->
+
                 Log.v(TAG, "Socket(serverIp, portImageTcp).use 2")
 
                 val sOut = DataOutputStream(socket.getOutputStream())
@@ -224,57 +264,51 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
 
                 Log.v(TAG, "socket ${socket.isConnected}")
 
-                val a = ImageProtocol.ImageRequest.newBuilder()
-                    .setCameraId(1)
-                    .build()
-                val ap = a.toByteArray()
-
-                // https://stackoverflow.com/questions/1436942/sending-int-through-socket-in-java
-                sOut.writeInt(ap.size)
-                sOut.write(ap)
-
-                sOut.flush()
-                Log.v(TAG, "mBufferOut")
-
-
-                // https://stackoverflow.com/questions/35002458/parsing-int-from-the-start-of-a-byte-from-a-socket
-                val size = sIn.readInt()
-                val len = Integer.reverseBytes(size)
-                assert(len < 1 shl 24)
-                Log.v(TAG, "size $size")
-
-                val b = ByteArray(len)
-                sIn.readFully(b)
-
-                // https://stackoverflow.com/questions/13854742/byte-array-of-image-into-imageview
-                val bmp = BitmapFactory.decodeByteArray(b, 0, b.size)
-
-                _bmp1.postValue(bmp)
-
-//                Log.v(TAG, "postValue")
-//                when (num) {
-//                    1 -> _bmp1.postValue(bmp)
-//                    2 -> _bmp2.postValue(bmp)
-//                    else -> throw Exception("runImageHttp getI $num")
+//                while (true) {
+//                    if (enableBmp1.get()) {
+//                        getI(1, sOut, sIn)
+//                    }
+//                    if (enableBmp2.get()) {
+//                        getI(2, sOut, sIn)
+//                    }
+//                    Thread.sleep(0)
 //                }
+                var c1LastOk = true
+                var c2LastOk = true
+                while (true) {
+                    if (enableBmp1.get()) {
+                        if (c1LastOk) {
+                            c1LastOk = getI(1, sOut, sIn)
+                        }
+                    } else {
+                        c1LastOk = true
+                    }
+                    if (enableBmp2.get()) {
+                        if (c2LastOk) {
+                            c2LastOk = getI(2, sOut, sIn)
+                        }
+                    } else {
+                        c2LastOk = true
+                    }
+                    Thread.sleep(0)
+                }
 
             }
-
         } catch (e: java.lang.Exception) {
             _popupMsg.postValue(e.toString())
             Log.v(TAG, e.toString())
-            throw e
+            return
+//                throw e
         }
+
+
     }
 
     fun runImageHttp(app: Application) {
 
         val client = OkHttpClient()
 
-        //        Log.v(TAG, "runImageHttp")
         fun getI(num: Int): Boolean {
-//            Log.v(TAG, "getI $num")
-
 
             val request: Request = Request.Builder()
                 .url(
@@ -315,7 +349,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
             } catch (e: Exception) {
                 _popupMsg.postValue(e.toString())
                 Log.v(TAG, e.toString())
-                throw e
+//                throw e
+                return@getI false
             }
             return@getI true
         }
@@ -323,10 +358,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
         var c1LastOk = true
         var c2LastOk = true
         while (true) {
-//            Log.v(TAG, "while (true)")
             if (enableBmp1.get()) {
                 if (c1LastOk) {
-//                    Log.v(TAG, "(enableBmp1.get())")
                     c1LastOk = getI(1)
                 }
             } else {
@@ -334,7 +367,6 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
             }
             if (enableBmp2.get()) {
                 if (c2LastOk) {
-//                    Log.v(TAG, "(enableBmp2.get())")
                     c2LastOk = getI(2)
                 }
             } else {

@@ -81,6 +81,21 @@ class MainActivity : AppCompatActivity() {
             controlViewModel.cmdEvent.value = CmdEvent(Cmd.LAND)
         }
 
+        binding.buttonCamera1.setOnClickListener {
+            val o = controlViewModel.enableBmp1.get()
+            controlViewModel.enableBmp1.set(!o)
+            if (o) {
+                binding.cameraImageView1.setImageResource(android.R.color.transparent)
+            }
+        }
+        binding.buttonCamera2.setOnClickListener {
+            val o = controlViewModel.enableBmp2.get()
+            controlViewModel.enableBmp2.set(!o)
+            if (o) {
+                binding.cameraImageView2.setImageResource(android.R.color.transparent)
+            }
+        }
+
 //        binding.bBack.background.alpha = 128
 //        binding.bFront.background.alpha = 128
 //        binding.bLeft.background.alpha = 128
