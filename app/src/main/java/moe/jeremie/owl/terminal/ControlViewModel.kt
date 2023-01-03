@@ -20,6 +20,7 @@ import java.net.Socket
 import java.net.URL
 import java.nio.ByteBuffer
 import java.nio.channels.DatagramChannel
+import java.nio.charset.Charset
 import java.util.concurrent.atomic.AtomicBoolean
 
 
@@ -191,45 +192,78 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
     fun runImageTcp(app: Application) {
         Log.v(TAG, "runImageTcp")
 
+        // https://stackoverflow.com/questions/1936857/convert-integer-into-byte-array-java
+        fun toBytes(i: Int): ByteArray {
+            val result = ByteArray(4)
+            result[0] = (i shr 24).toByte()
+            result[1] = (i shr 16).toByte()
+            result[2] = (i shr 8).toByte()
+            result[3] = i /*>> 0*/.toByte()
+            return result
+        }
+
+        // https://stackoverflow.com/questions/1936857/convert-integer-into-byte-array-java
+        fun toChars(i: Int): CharArray {
+            val result = CharArray(4)
+            result[0] = (i shr 24).toChar()
+            result[1] = (i shr 16).toChar()
+            result[2] = (i shr 8).toChar()
+            result[3] = i /*>> 0*/.toChar()
+            return result
+        }
+
         try {
 
             Log.v(TAG, "Socket(serverIp, portImageTcp).use 1")
             Socket(serverIp, portImageTcp).use { socket ->
                 Log.v(TAG, "Socket(serverIp, portImageTcp).use 2")
 
-                //sends the message to the server
-                val mBufferOut =
-                    PrintWriter(BufferedWriter(OutputStreamWriter(socket.getOutputStream())), true)
+                val sOut = DataOutputStream(socket.getOutputStream())
 
-                //receives the message which the server sends back
-                val mBufferIn = BufferedReader(InputStreamReader(socket.getInputStream()))
+                val sIn = DataInputStream(socket.getInputStream())
 
                 Log.v(TAG, "socket ${socket.isConnected}")
 
                 val a = ImageProtocol.ImageRequest.newBuilder()
                     .setCameraId(1)
                     .build()
-                val ap = a.toString();
-                mBufferOut.write(ap.length)
-                mBufferOut.write(ap)
+                val ap = a.toByteArray()
 
-                mBufferOut.flush()
+                // https://stackoverflow.com/questions/1436942/sending-int-through-socket-in-java
+                sOut.writeInt(ap.size)
+                sOut.write(ap)
+
+                sOut.flush()
                 Log.v(TAG, "mBufferOut")
 
-                val ca = CharArray(4)
-                mBufferIn.read(ca, 0, 4)
 
-                val ba = String(ca).toByteArray()
-                val size = ByteBuffer.wrap(ba).int
+                // https://stackoverflow.com/questions/35002458/parsing-int-from-the-start-of-a-byte-from-a-socket
+                val size = sIn.readInt()
+                val len = Integer.reverseBytes(size)
+                assert(len < 1 shl 24)
                 Log.v(TAG, "size $size")
 
+                val b = ByteArray(len)
+                sIn.readFully(b)
+
+                // https://stackoverflow.com/questions/13854742/byte-array-of-image-into-imageview
+                val bmp = BitmapFactory.decodeByteArray(b, 0, b.size)
+
+                _bmp1.postValue(bmp)
+
+//                Log.v(TAG, "postValue")
+//                when (num) {
+//                    1 -> _bmp1.postValue(bmp)
+//                    2 -> _bmp2.postValue(bmp)
+//                    else -> throw Exception("runImageHttp getI $num")
+//                }
 
             }
 
         } catch (e: java.lang.Exception) {
             _popupMsg.postValue(e.toString())
             Log.v(TAG, e.toString())
-//            throw e
+            throw e
         }
     }
 
@@ -251,7 +285,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                     }
                 ).build()
 
-            Log.v(TAG, "build")
+            Log.v(TAG, "build " + request.url.toString())
+
             try {
                 client.newCall(request).execute().use { r ->
                     Log.v(TAG, "execute")
@@ -280,6 +315,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
             } catch (e: Exception) {
                 _popupMsg.postValue(e.toString())
                 Log.v(TAG, e.toString())
+                throw e
             }
             return@getI true
         }
