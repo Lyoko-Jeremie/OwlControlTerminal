@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:tools="http://schemas.android.com/tools"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/root_ConstraintLayout"
@@ -10,6 +10,7 @@
         tools:context=".MainConfigActivity">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/constraintLayoutIP"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
@@ -18,6 +19,16 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+
+            <TextView
+                android:id="@+id/textControlConfig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/ControlConfig"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_airplaneIp"
@@ -33,47 +44,11 @@
                 android:layout_height="wrap_content"
                 android:ems="10"
                 android:hint="@string/AirplaneIp"
+                android:importantForAutofill="no"
                 android:inputType="textPersonName"
+                android:minHeight="48dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-            <EditText
-                android:id="@+id/editPortCmd"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/PortCmd"
-                android:inputType="number"
-                app:layout_constraintStart_toStartOf="@+id/editAirplaneIp"
-                app:layout_constraintTop_toBottomOf="@+id/editAirplaneIp" />
-
-            <EditText
-                android:id="@+id/editPortImageHttp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/PortImageHttp"
-                android:inputType="number"
-                app:layout_constraintStart_toStartOf="@+id/editPortImageTcp"
-                app:layout_constraintTop_toBottomOf="@+id/editPortImageTcp" />
-
-            <CheckBox
-                android:id="@+id/checkUseImageModeHttp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/UseImageModeHttp"
-                app:layout_constraintStart_toStartOf="@+id/editPortImageHttp"
-                app:layout_constraintTop_toBottomOf="@+id/editPortImageHttp" />
-
-            <EditText
-                android:id="@+id/editPortImageTcp"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:ems="10"
-                android:hint="@string/PortImageTcp"
-                android:inputType="number"
-                app:layout_constraintStart_toStartOf="@+id/editPortCmd"
-                app:layout_constraintTop_toBottomOf="@+id/editPortCmd" />
+                app:layout_constraintTop_toBottomOf="@+id/textControlConfig" />
 
             <TextView
                 android:id="@+id/text_editPortCmd"
@@ -83,6 +58,18 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/editPortCmd"
                 app:layout_constraintEnd_toStartOf="@+id/editPortCmd" />
 
+            <EditText
+                android:id="@+id/editPortCmd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/PortCmd"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toStartOf="@+id/editAirplaneIp"
+                app:layout_constraintTop_toBottomOf="@+id/editAirplaneIp" />
+
             <TextView
                 android:id="@+id/text_PortImageTcp"
                 android:layout_width="wrap_content"
@@ -90,6 +77,18 @@
                 android:text="@string/PortImageTcp"
                 app:layout_constraintBaseline_toBaselineOf="@+id/editPortImageTcp"
                 app:layout_constraintEnd_toStartOf="@+id/editPortImageTcp" />
+
+            <EditText
+                android:id="@+id/editPortImageTcp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/PortImageTcp"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toStartOf="@+id/editPortCmd"
+                app:layout_constraintTop_toBottomOf="@+id/editPortCmd" />
 
             <TextView
                 android:id="@+id/text_PortImageHttp"
@@ -99,6 +98,18 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/editPortImageHttp"
                 app:layout_constraintEnd_toStartOf="@+id/editPortImageHttp" />
 
+            <EditText
+                android:id="@+id/editPortImageHttp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/PortImageHttp"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toStartOf="@+id/editPortImageTcp"
+                app:layout_constraintTop_toBottomOf="@+id/editPortImageTcp" />
+
             <TextView
                 android:id="@+id/text_UseImageModeHttp"
                 android:layout_width="wrap_content"
@@ -107,13 +118,21 @@
                 app:layout_constraintBaseline_toBaselineOf="@+id/checkUseImageModeHttp"
                 app:layout_constraintEnd_toStartOf="@+id/checkUseImageModeHttp" />
 
+            <CheckBox
+                android:id="@+id/checkUseImageModeHttp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/UseImageModeHttp"
+                app:layout_constraintStart_toStartOf="@+id/editPortImageHttp"
+                app:layout_constraintTop_toBottomOf="@+id/editPortImageHttp" />
+
             <Button
                 android:id="@+id/buttonSave"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/SaveConfig"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/checkUseImageModeHttp" />
+                app:layout_constraintTop_toBottomOf="@+id/editMoveOffset" />
 
             <Button
                 android:id="@+id/buttonReset"
@@ -121,7 +140,48 @@
                 android:layout_height="wrap_content"
                 android:text="@string/Reset"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/editMoveOffset" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_marginTop="8dp"
+                android:background="@android:color/darker_gray"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/text_UseImageModeHttp"
                 app:layout_constraintTop_toBottomOf="@+id/checkUseImageModeHttp" />
+
+            <TextView
+                android:id="@+id/textAirplaneConfig"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/AirplaneConfig"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view" />
+
+            <TextView
+                android:id="@+id/textMoveOffset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/MoveOffset"
+                app:layout_constraintBaseline_toBaselineOf="@+id/editMoveOffset"
+                app:layout_constraintEnd_toStartOf="@+id/editMoveOffset" />
+
+            <EditText
+                android:id="@+id/editMoveOffset"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="@string/MoveOffset"
+                android:importantForAutofill="no"
+                android:inputType="number"
+                android:minHeight="48dp"
+                app:layout_constraintStart_toEndOf="@+id/text_UseImageModeHttp"
+                app:layout_constraintTop_toBottomOf="@+id/textAirplaneConfig" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
@@ -133,6 +193,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:minHeight="60dp"
             android:text="@string/Start"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

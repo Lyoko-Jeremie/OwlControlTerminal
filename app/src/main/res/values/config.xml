@@ -13,5 +13,7 @@
     <string name="config_name_PortImageHttp">PortImageHttp</string>
     <bool name="config_default_UseImageModeHttp">false</bool>
     <string name="config_name_UseImageModeHttp">UseImageModeHttp</string>
+    <integer name="config_default_MoveOffset">100</integer>
+    <string name="config_name_MoveOffset">MoveOffset</string>
 
 </resources>

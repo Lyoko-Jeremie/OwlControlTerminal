@@ -2,6 +2,7 @@ package moe.jeremie.owl.terminal
 
 import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.util.Log
@@ -18,6 +19,7 @@ class MainConfigActivity : AppCompatActivity() {
     private val TAG = "MainConfigActivity"
 
     private lateinit var binding: ActivityMainConfigBinding
+    private lateinit var sharedPref: SharedPreferences
 
     override fun onDestroy() {
         super.onDestroy()
@@ -30,6 +32,11 @@ class MainConfigActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main_config)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_config)
+
+        // https://developer.android.com/training/data-storage/shared-preferences
+        sharedPref = this.getSharedPreferences(
+            getString(R.string.config_preference_file_key), Context.MODE_PRIVATE
+        )
 
         binding.buttonReset.setOnClickListener {
             resetConfig()
@@ -62,11 +69,7 @@ class MainConfigActivity : AppCompatActivity() {
 
     }
 
-    fun saveConfig() {
-        // https://developer.android.com/training/data-storage/shared-preferences
-        val sharedPref = this.getSharedPreferences(
-            getString(R.string.config_preference_file_key), Context.MODE_PRIVATE
-        )
+    private fun saveConfig() {
 
         with(sharedPref.edit()) {
 
@@ -90,17 +93,17 @@ class MainConfigActivity : AppCompatActivity() {
                 getString(R.string.config_name_UseImageModeHttp),
                 binding.checkUseImageModeHttp.isChecked
             )
+            putInt(
+                getString(R.string.config_name_MoveOffset),
+                binding.editMoveOffset.text.toString().toIntOrNull() ?: 0
+            )
 
             apply()
         }
 
     }
 
-    fun resetConfig() {
-        // https://developer.android.com/training/data-storage/shared-preferences
-        val sharedPref = this.getSharedPreferences(
-            getString(R.string.config_preference_file_key), Context.MODE_PRIVATE
-        )
+    private fun resetConfig() {
 
         with(sharedPref.edit()) {
 
@@ -109,58 +112,62 @@ class MainConfigActivity : AppCompatActivity() {
             remove(getString(R.string.config_name_PortImageTcp))
             remove(getString(R.string.config_name_PortImageHttp))
             remove(getString(R.string.config_name_UseImageModeHttp))
+            remove(getString(R.string.config_name_MoveOffset))
 
             apply()
         }
 
     }
 
-    fun loadConfig() {
-        // https://developer.android.com/training/data-storage/shared-preferences
-        val sharedPref = this.getSharedPreferences(
-            getString(R.string.config_preference_file_key), Context.MODE_PRIVATE
-        ) ?: return
+    private fun getStringR(name: Int, default: Int): String {
+        val defaultValue = resources.getString(default)
+        val r = sharedPref.getString(getString(name), defaultValue)
+        return if (r != null && r.isNotEmpty()) r else defaultValue
+    }
 
-        val getString: (name: Int, default: Int) -> String = { name: Int, default: Int ->
-            val defaultValue = resources.getString(default)
-            val r = sharedPref.getString(getString(name), defaultValue)
-            if (r != null && r.isNotEmpty()) r else defaultValue
-        }
-        val getInt = { name: Int, default: Int ->
-            val defaultValue = resources.getInteger(default)
-            val r = sharedPref.getInt(getString(name), defaultValue)
-            if (r == 0) defaultValue else r
-        }
-        val getBoolean = { name: Int, default: Int ->
-            val defaultValue = resources.getBoolean(default)
-            sharedPref.getBoolean(getString(name), defaultValue)
-        }
+    private fun getIntR(name: Int, default: Int): Int {
+        val defaultValue = resources.getInteger(default)
+        val r = sharedPref.getInt(getString(name), defaultValue)
+        return if (r == 0) defaultValue else r
+    }
 
-        val airplaneIp = getString(
+    private fun getBooleanR(name: Int, default: Int): Boolean {
+        val defaultValue = resources.getBoolean(default)
+        return sharedPref.getBoolean(getString(name), defaultValue)
+    }
+
+    private fun loadConfig() {
+
+        val airplaneIp = this.getStringR(
             R.string.config_name_AirplaneIp,
             R.string.config_default_AirplaneIp
         )
         binding.editAirplaneIp.text = airplaneIp.toEditable()
-        val portCmd = getInt(
+        val portCmd = this.getIntR(
             R.string.config_name_PortCmd,
             R.integer.config_default_PortCmd
         )
         binding.editPortCmd.setText("$portCmd")
-        val portImageTcp = getInt(
+        val portImageTcp = this.getIntR(
             R.string.config_name_PortImageTcp,
             R.integer.config_default_PortImageTcp
         )
         binding.editPortImageTcp.setText("$portImageTcp")
-        val portImageHttp = getInt(
+        val portImageHttp = this.getIntR(
             R.string.config_name_PortImageHttp,
             R.integer.config_default_PortImageHttp
         )
         binding.editPortImageHttp.setText("$portImageHttp")
-        val useImageModeHttp = getBoolean(
+        val useImageModeHttp = this.getBooleanR(
             R.string.config_name_UseImageModeHttp,
             R.bool.config_default_UseImageModeHttp
         )
         binding.checkUseImageModeHttp.isChecked = useImageModeHttp
+        val moveOffset = this.getIntR(
+            R.string.config_name_MoveOffset,
+            R.integer.config_default_MoveOffset
+        )
+        binding.editMoveOffset.setText("$moveOffset")
 
     }
 }
