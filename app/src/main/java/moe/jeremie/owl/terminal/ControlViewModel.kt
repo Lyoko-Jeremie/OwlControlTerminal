@@ -2,6 +2,7 @@ package moe.jeremie.owl.terminal
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Log
@@ -116,6 +117,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
         runCmdUdp(app)
     }
 
+
     private fun runCmdUdp(app: Application) {
 
         viewModelScope.launch(Dispatchers.IO) {
@@ -139,7 +141,10 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                 when (it.cmd) {
                     Cmd.PING -> dataJson.put("cmdId", 0)
                     Cmd.BREAK -> dataJson.put("cmdId", 10)
-                    Cmd.TAKEOFF -> dataJson.put("cmdId", 11)
+                    Cmd.TAKEOFF -> {
+                        dataJson.put("distance", it.moveDistance)
+                        dataJson.put("cmdId", 11)
+                    }
                     Cmd.LAND -> dataJson.put("cmdId", 12)
                     Cmd.MOVE -> {
                         dataJson.put("cmdId", 13)

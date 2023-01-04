@@ -2,6 +2,7 @@ package moe.jeremie.owl.terminal
 
 import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -49,25 +50,41 @@ class MainActivity : AppCompatActivity() {
             ).show()
         })
 
+        val sharedPref = application.getSharedPreferences(
+            application.resources.getString(R.string.config_preference_file_key),
+            Context.MODE_PRIVATE
+        )
+        val moveOffset = getIntR(
+            application, sharedPref,
+            R.string.config_name_MoveOffset,
+            R.integer.config_default_MoveOffset,
+        )
+
         with(binding) {
 
             bUp.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.UP)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.MOVE, CmdMove.UP, moveDistance = moveOffset)
             }
             bDown.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.DOWN)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.MOVE, CmdMove.DOWN, moveDistance = moveOffset)
             }
             bLeft.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.LEFT)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.MOVE, CmdMove.LEFT, moveDistance = moveOffset)
             }
             bRight.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.RIGHT)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.MOVE, CmdMove.RIGHT, moveDistance = moveOffset)
             }
             bFront.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.FORWARD)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.MOVE, CmdMove.FORWARD, moveDistance = moveOffset)
             }
             bBack.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.BACK)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.MOVE, CmdMove.BACK, moveDistance = moveOffset)
             }
             bCw.setOnClickListener {
                 controlViewModel.cmdEvent.value = CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CW)
@@ -78,7 +95,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             buttonTakeoff.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF)
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF, moveDistance = moveOffset)
             }
             buttonLand.setOnClickListener {
                 controlViewModel.cmdEvent.value = CmdEvent(Cmd.LAND)
@@ -146,6 +163,17 @@ class MainActivity : AppCompatActivity() {
         }
 
 
+    }
+
+    private fun getIntR(
+        app: Application,
+        sharedPref: SharedPreferences,
+        name: Int,
+        default: Int
+    ): Int {
+        val defaultValue = app.resources.getInteger(default)
+        val r = sharedPref.getInt(app.resources.getString(name), defaultValue)
+        return if (r == 0) defaultValue else r
     }
 
 }
