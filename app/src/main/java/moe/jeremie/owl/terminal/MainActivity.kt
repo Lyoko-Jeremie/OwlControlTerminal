@@ -49,50 +49,54 @@ class MainActivity : AppCompatActivity() {
             ).show()
         })
 
-        binding.bUp.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.UP)
-        }
-        binding.bDown.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.DOWN)
-        }
-        binding.bLeft.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.LEFT)
-        }
-        binding.bRight.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.RIGHT)
-        }
-        binding.bFront.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.FORWARD)
-        }
-        binding.bBack.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.BACK)
-        }
-        binding.bCw.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CW)
-        }
-        binding.bCcw.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CCW)
-        }
+        with(binding) {
 
-        binding.buttonTakeoff.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF)
-        }
-        binding.buttonLand.setOnClickListener {
-            controlViewModel.cmdEvent.value = CmdEvent(Cmd.LAND)
-        }
-
-        binding.buttonCamera1.setOnClickListener {
-            val o = controlViewModel.enableBmp1.get()
-            controlViewModel.enableBmp1.set(!o)
-            if (o) {
-                binding.cameraImageView1.setImageResource(android.R.color.transparent)
+            bUp.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.UP)
             }
-        }
-        binding.buttonCamera2.setOnClickListener {
-            val o = controlViewModel.enableBmp2.get()
-            controlViewModel.enableBmp2.set(!o)
-            if (o) {
-                binding.cameraImageView2.setImageResource(android.R.color.transparent)
+            bDown.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.DOWN)
+            }
+            bLeft.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.LEFT)
+            }
+            bRight.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.RIGHT)
+            }
+            bFront.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.FORWARD)
+            }
+            bBack.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.MOVE, CmdMove.BACK)
+            }
+            bCw.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CW)
+            }
+            bCcw.setOnClickListener {
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CCW)
+            }
+
+            buttonTakeoff.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF)
+            }
+            buttonLand.setOnClickListener {
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.LAND)
+            }
+
+            buttonCamera1.setOnClickListener {
+                val o = controlViewModel.enableBmp1.get()
+                controlViewModel.enableBmp1.set(!o)
+                if (o) {
+                    binding.cameraImageView1.setImageResource(android.R.color.transparent)
+                }
+            }
+            buttonCamera2.setOnClickListener {
+                val o = controlViewModel.enableBmp2.get()
+                controlViewModel.enableBmp2.set(!o)
+                if (o) {
+                    binding.cameraImageView2.setImageResource(android.R.color.transparent)
+                }
             }
         }
 
