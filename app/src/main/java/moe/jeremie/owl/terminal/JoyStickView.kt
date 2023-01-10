@@ -159,7 +159,7 @@ class JoyStickView @JvmOverloads constructor(
         super.onDraw(canvas)
 
         // Save layer alpha for Rect that covers the view : alpha is 90 / 255
-//        canvas.saveLayerAlpha(0f, 0f, width.toFloat(), height.toFloat(), 90)
+        canvas.saveLayerAlpha(0f, 0f, width.toFloat(), height.toFloat(), 90)
 
 //        canvas.drawColor(Color.valueOf(0f, 0f, 0f, 0f).toArgb())
 //        canvas.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
