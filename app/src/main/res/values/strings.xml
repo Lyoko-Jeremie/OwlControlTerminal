@@ -13,6 +13,7 @@
     <string name="SaveOk">保存成功</string>
     <string name="ResetOk">重置成功</string>
     <string name="Start">开始</string>
+    <string name="StartJoy">开始JoyCon</string>
     <string name="ControlConfig">控制配置</string>
     <string name="AirplaneConfig">飞行配置</string>
     <string name="MoveOffset">移动步进量</string>
