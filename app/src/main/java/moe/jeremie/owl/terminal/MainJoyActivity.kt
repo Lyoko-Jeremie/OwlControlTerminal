@@ -17,7 +17,7 @@ import moe.jeremie.owl.terminal.databinding.ActivityMainJoyBinding
 
 class MainJoyActivity : AppCompatActivity() {
 
-    private val TAG = "MainActivity"
+    private val TAG = "MainJoyActivity"
 
     private lateinit var binding: ActivityMainJoyBinding
 
@@ -31,7 +31,7 @@ class MainJoyActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 //        setContentView(R.layout.activity_main_joy)
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding = DataBindingUtil.setContentView(this, R.layout.activity_main_joy)
 
         supportActionBar?.hide()
 
