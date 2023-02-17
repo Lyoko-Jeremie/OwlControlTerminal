@@ -87,11 +87,12 @@ class MainActivity : AppCompatActivity() {
                     CmdEvent(Cmd.MOVE, CmdMove.BACK, moveDistance = moveOffset)
             }
             bCw.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CW)
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CW, rotateRote = 15)
             }
             bCcw.setOnClickListener {
                 controlViewModel.cmdEvent.value =
-                    CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CCW)
+                    CmdEvent(Cmd.ROTATE, CmdMove.IGNORE, CmdRotate.CCW, rotateRote = 15)
             }
 
             buttonTakeoff.setOnClickListener {
