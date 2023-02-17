@@ -23,6 +23,14 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".LogoActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".MainConfigActivity"
             android:exported="true">
             <intent-filter>
