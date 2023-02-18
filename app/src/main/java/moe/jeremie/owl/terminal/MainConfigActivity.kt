@@ -33,6 +33,8 @@ class MainConfigActivity : AppCompatActivity() {
 //        setContentView(R.layout.activity_main_config)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main_config)
 
+        supportActionBar?.hide()
+
         // https://developer.android.com/training/data-storage/shared-preferences
         sharedPref = this.getSharedPreferences(
             getString(R.string.config_preference_file_key), Context.MODE_PRIVATE
