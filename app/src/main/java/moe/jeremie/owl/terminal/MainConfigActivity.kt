@@ -67,6 +67,10 @@ class MainConfigActivity : AppCompatActivity() {
             startActivity(Intent(this, MainActivity::class.java))
         }
 
+        binding.buttonStartJoy.setOnClickListener {
+            startActivity(Intent(this, MainJoyActivity::class.java))
+        }
+
         loadConfig()
 
     }
