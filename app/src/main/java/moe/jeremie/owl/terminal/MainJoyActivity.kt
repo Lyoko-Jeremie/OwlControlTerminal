@@ -80,6 +80,16 @@ class MainJoyActivity : AppCompatActivity() {
                     binding.cameraImageView2.setImageResource(android.R.color.transparent)
                 }
             }
+
+            joyStickViewL.setOnJoyStickMove {
+                it.x
+                it.y
+            }
+            joyStickViewR.setOnJoyStickMove {
+                it.x
+                it.y
+            }
+            joyStickViewR.getJoyStickState()
         }
 
 

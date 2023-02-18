@@ -88,6 +88,28 @@ class JoyStickView @JvmOverloads constructor(
 //        return super.dispatchTouchEvent(ev)
 //    }
 
+    public data class JoyStickState(
+        val x: Int,
+        val y: Int,
+    )
+
+    private var onJoyStickMove: (JoyStickState) -> Unit = {}
+
+    public fun setOnJoyStickMove(l: (JoyStickState) -> Unit) {
+        onJoyStickMove = l
+    }
+
+    public fun getJoyStickState(): JoyStickState {
+        var dx = clickX - maxW / 2
+        var dy = clickY - maxH / 2
+        dx = dx * 1000 / (maxW / 2)
+        dy = dy * 1000 / (maxH / 2)
+        return JoyStickState(
+            x = dx,
+            y = -(dy),
+        )
+    }
+
     override fun onTouchEvent(event: MotionEvent): Boolean {
 
 
@@ -135,6 +157,7 @@ class JoyStickView @JvmOverloads constructor(
             clickY = maxH / 2
             performClick()
             invalidate()
+            onJoyStickMove(getJoyStickState())
             return true
 //            return super.onTouchEvent(event)
         }
@@ -145,6 +168,7 @@ class JoyStickView @JvmOverloads constructor(
         performClick()
         // tell the View to redraw the Canvas
         invalidate()
+        onJoyStickMove(getJoyStickState())
         // tell the View that we handled the event
         return true
 //        return super.onTouchEvent(event)
