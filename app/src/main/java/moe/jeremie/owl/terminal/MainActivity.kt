@@ -62,6 +62,10 @@ class MainActivity : AppCompatActivity() {
 
         with(binding) {
 
+            bCalibrate.setOnClickListener {
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.CALIBRATE)
+            }
             bUp.setOnClickListener {
                 controlViewModel.cmdEvent.value =
                     CmdEvent(Cmd.MOVE, CmdMove.UP, moveDistance = moveOffset)

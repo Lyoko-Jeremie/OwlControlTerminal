@@ -59,6 +59,10 @@ class MainJoyActivity : AppCompatActivity() {
 
         with(binding) {
 
+            bCalibrate.setOnClickListener {
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.CALIBRATE)
+            }
             buttonTakeoff.setOnClickListener {
                 controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF, moveDistance = moveOffset)
             }

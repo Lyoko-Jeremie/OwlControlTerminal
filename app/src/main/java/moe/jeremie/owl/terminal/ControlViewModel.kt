@@ -139,6 +139,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                 dataJson.put("packageId", it.id)
 
                 when (it.cmd) {
+                    Cmd.CALIBRATE -> dataJson.put("cmdId", 90)
                     Cmd.PING -> dataJson.put("cmdId", 0)
                     Cmd.BREAK -> dataJson.put("cmdId", 10)
                     Cmd.TAKEOFF -> {

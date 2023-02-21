@@ -18,6 +18,7 @@ enum class CmdMove(val v: Int) {
 
 enum class Cmd(val v: Int) {
     PING(0),
+    CALIBRATE(90),
     BREAK(10),
     TAKEOFF(11),
     LAND(12),
