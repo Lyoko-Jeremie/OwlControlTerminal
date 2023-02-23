@@ -18,12 +18,17 @@ enum class CmdMove(val v: Int) {
 
 enum class Cmd(val v: Int) {
     PING(0),
+    EmergencyStop(120),
+    UNLOCK(92),
     CALIBRATE(90),
     BREAK(10),
     TAKEOFF(11),
     LAND(12),
     MOVE(13),
     ROTATE(14),
+    JoyCon(60),
+    JoyConSimple(61),
+    JoyConGyro(62),
 }
 
 private var id_: Int = 0

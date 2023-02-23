@@ -63,6 +63,10 @@ class MainJoyActivity : AppCompatActivity() {
                 controlViewModel.cmdEvent.value =
                     CmdEvent(Cmd.CALIBRATE)
             }
+            bEmergencyStop.setOnClickListener {
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.EmergencyStop)
+            }
             buttonTakeoff.setOnClickListener {
                 controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF, moveDistance = moveOffset)
             }

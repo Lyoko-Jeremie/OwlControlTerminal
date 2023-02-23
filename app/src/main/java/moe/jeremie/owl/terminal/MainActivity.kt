@@ -66,6 +66,10 @@ class MainActivity : AppCompatActivity() {
                 controlViewModel.cmdEvent.value =
                     CmdEvent(Cmd.CALIBRATE)
             }
+            bEmergencyStop.setOnClickListener {
+                controlViewModel.cmdEvent.value =
+                    CmdEvent(Cmd.EmergencyStop)
+            }
             bUp.setOnClickListener {
                 controlViewModel.cmdEvent.value =
                     CmdEvent(Cmd.MOVE, CmdMove.UP, moveDistance = moveOffset)

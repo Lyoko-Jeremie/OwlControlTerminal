@@ -53,6 +53,19 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <Button
+                    android:id="@+id/bEmergencyStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="48dp"
+                    android:text="Stop"
+                    app:layout_constraintBottom_toTopOf="@+id/bCalibrate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
                     android:id="@+id/buttonTakeoff"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"

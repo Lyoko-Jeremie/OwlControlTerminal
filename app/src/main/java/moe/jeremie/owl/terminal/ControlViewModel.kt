@@ -169,6 +169,20 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                             CmdRotate.CCW -> dataJson.put("rotate", 2)
                         }
                     }
+                    Cmd.UNLOCK -> dataJson.put("cmdId", Cmd.UNLOCK)
+                    Cmd.EmergencyStop -> dataJson.put("cmdId", Cmd.EmergencyStop)
+                    Cmd.JoyCon -> {
+                        dataJson.put("cmdId", Cmd.JoyCon)
+                        // TODO
+                    }
+                    Cmd.JoyConSimple -> {
+                        dataJson.put("cmdId", Cmd.JoyConSimple)
+                        // TODO
+                    }
+                    Cmd.JoyConGyro -> {
+                        dataJson.put("cmdId", Cmd.JoyConGyro)
+                        // TODO
+                    }
                 }
 
                 val message: String = dataJson.toString()
