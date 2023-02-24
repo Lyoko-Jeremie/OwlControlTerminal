@@ -169,18 +169,18 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                             CmdRotate.CCW -> dataJson.put("rotate", 2)
                         }
                     }
-                    Cmd.UNLOCK -> dataJson.put("cmdId", Cmd.UNLOCK)
-                    Cmd.EmergencyStop -> dataJson.put("cmdId", Cmd.EmergencyStop)
+                    Cmd.UNLOCK -> dataJson.put("cmdId", 92)
+                    Cmd.EmergencyStop -> dataJson.put("cmdId", 120)
                     Cmd.JoyCon -> {
-                        dataJson.put("cmdId", Cmd.JoyCon)
+                        dataJson.put("cmdId", 60)
                         // TODO
                     }
                     Cmd.JoyConSimple -> {
-                        dataJson.put("cmdId", Cmd.JoyConSimple)
+                        dataJson.put("cmdId", 61)
                         // TODO
                     }
                     Cmd.JoyConGyro -> {
-                        dataJson.put("cmdId", Cmd.JoyConGyro)
+                        dataJson.put("cmdId", 62)
                         // TODO
                     }
                 }
