@@ -173,15 +173,52 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                     Cmd.EmergencyStop -> dataJson.put("cmdId", 120)
                     Cmd.JoyCon -> {
                         dataJson.put("cmdId", 60)
-                        // TODO
+                        requireNotNull(it.joyCon) { "Cmd.JoyCon requireNotNull(it.joyCon)" }
+                        var dataJoyCon = JSONObject()
+                        dataJoyCon.put("leftRockerX", it.joyCon.leftRockerX)
+                        dataJoyCon.put("leftRockerY", it.joyCon.leftRockerY)
+                        dataJoyCon.put("rightRockerX", it.joyCon.rightRockerX)
+                        dataJoyCon.put("rightRockerY", it.joyCon.rightRockerY)
+                        dataJoyCon.put("leftBackTop", it.joyCon.leftBackTop)
+                        dataJoyCon.put("leftBackBottom", it.joyCon.leftBackBottom)
+                        dataJoyCon.put("rightBackTop", it.joyCon.rightBackTop)
+                        dataJoyCon.put("rightBackBottom", it.joyCon.rightBackBottom)
+                        dataJoyCon.put("CrossUp", it.joyCon.CrossUp)
+                        dataJoyCon.put("CrossDown", it.joyCon.CrossDown)
+                        dataJoyCon.put("CrossLeft", it.joyCon.CrossLeft)
+                        dataJoyCon.put("CrossRight", it.joyCon.CrossRight)
+                        dataJoyCon.put("X", it.joyCon.A)
+                        dataJoyCon.put("B", it.joyCon.B)
+                        dataJoyCon.put("X", it.joyCon.X)
+                        dataJoyCon.put("Y", it.joyCon.Y)
+                        dataJoyCon.put("buttonAdd", it.joyCon.buttonAdd)
+                        dataJoyCon.put("buttonReduce", it.joyCon.buttonReduce)
+                        dataJson.put("JoyCon", dataJoyCon)
                     }
                     Cmd.JoyConSimple -> {
                         dataJson.put("cmdId", 61)
-                        // TODO
+                        requireNotNull(it.joyCon) { "Cmd.JoyConSimple requireNotNull(it.joyCon)" }
+                        var dataJoyConSimple = JSONObject()
+                        dataJoyConSimple.put("leftRockerX", it.joyCon.leftRockerX)
+                        dataJoyConSimple.put("leftRockerY", it.joyCon.leftRockerY)
+                        dataJoyConSimple.put("rightRockerX", it.joyCon.rightRockerX)
+                        dataJoyConSimple.put("rightRockerY", it.joyCon.rightRockerY)
+                        dataJoyConSimple.put("buttonAdd", it.joyCon.buttonAdd)
+                        dataJoyConSimple.put("buttonReduce", it.joyCon.buttonReduce)
+                        dataJson.put("JoyConSimple", dataJoyConSimple)
                     }
                     Cmd.JoyConGyro -> {
                         dataJson.put("cmdId", 62)
-                        // TODO
+                        requireNotNull(it.joyConGyro) { "Cmd.JoyConGyro requireNotNull(it.joyConGyro)" }
+                        var dataJoyConGyro = JSONObject()
+                        dataJoyConGyro.put("x", it.joyConGyro.x)
+                        dataJoyConGyro.put("y", it.joyConGyro.y)
+                        dataJoyConGyro.put("z", it.joyConGyro.z)
+                        dataJoyConGyro.put("a", it.joyConGyro.a)
+                        dataJoyConGyro.put("b", it.joyConGyro.b)
+                        dataJoyConGyro.put("c", it.joyConGyro.c)
+                        dataJoyConGyro.put("d", it.joyConGyro.d)
+                        dataJson.put("JoyConGyro", dataJoyConGyro)
                     }
                 }
 
