@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/root_ConstraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainUSActivity">
+
+        <FrameLayout
+            android:id="@+id/root_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/camera_image_root"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <ImageView
+                    android:id="@+id/camera_image_view_1"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:adjustViewBounds="true"
+                    android:scaleType="fitCenter" />
+
+                <ImageView
+                    android:id="@+id/camera_image_view_2"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1" />
+
+            </LinearLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <Button
+                    android:id="@+id/bCalibrate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/calibrate"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/bEmergencyStop"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/stop"
+                    app:layout_constraintBottom_toTopOf="@+id/bCalibrate"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/buttonTakeoff"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/takeoff"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonCamera1" />
+
+                <Button
+                    android:id="@+id/buttonLand"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/land"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/buttonCamera2" />
+
+                <Button
+                    android:id="@+id/buttonCamera1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0px"
+                    android:text="@string/camera1"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/buttonCamera2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:minWidth="0px"
+                    android:text="@string/camera2"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <Button
+                    android:id="@+id/b_up"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/up"
+                    app:layout_constraintBottom_toTopOf="@+id/b_down"
+                    app:layout_constraintStart_toStartOf="@+id/b_down" />
+
+                <Button
+                    android:id="@+id/b_front"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/front"
+                    app:layout_constraintBottom_toTopOf="@+id/b_back"
+                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+
+                <Button
+                    android:id="@+id/b_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/right"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <Button
+                    android:id="@+id/b_ccw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/ccw"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <Button
+                    android:id="@+id/b_back"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/back"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+
+                <Button
+                    android:id="@+id/b_cw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/cw"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/b_back" />
+
+                <Button
+                    android:id="@+id/b_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/down"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/b_right" />
+
+                <Button
+                    android:id="@+id/b_left"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="#80000000"
+                    android:insetTop="0dp"
+                    android:insetBottom="0dp"
+                    android:text="@string/left"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/b_down" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</layout>

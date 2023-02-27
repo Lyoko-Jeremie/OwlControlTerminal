@@ -60,6 +60,15 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity
+            android:name=".MainUSActivity"
+            android:configChanges="orientation|keyboardHidden"
+            android:exported="true"
+            android:screenOrientation="sensorLandscape">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
     </application>
 
 </manifest>
