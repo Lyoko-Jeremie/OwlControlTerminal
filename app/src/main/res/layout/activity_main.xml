@@ -122,8 +122,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/up"
                     app:layout_constraintBottom_toTopOf="@+id/b_down"
                     app:layout_constraintStart_toStartOf="@+id/b_down" />
@@ -135,8 +133,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/front"
                     app:layout_constraintBottom_toTopOf="@+id/b_back"
                     app:layout_constraintStart_toEndOf="@+id/b_ccw" />
@@ -148,8 +144,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/right"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
@@ -161,8 +155,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/ccw"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -174,8 +166,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/b_ccw" />
@@ -187,8 +177,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/cw"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/b_back" />
@@ -200,8 +188,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/down"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/b_right" />
@@ -213,8 +199,6 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:minHeight="48dp"
-                    android:minWidth="48dp"
                     android:text="@string/left"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/b_down" />
