@@ -47,7 +47,8 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minHeight="48dp"
-                    android:text="Calibrate"
+                    android:minWidth="48dp"
+                    android:text="@string/calibrate"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -60,7 +61,8 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minHeight="48dp"
-                    android:text="Stop"
+                    android:minWidth="48dp"
+                    android:text="@string/stop"
                     app:layout_constraintBottom_toTopOf="@+id/bCalibrate"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
@@ -73,7 +75,8 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minHeight="48dp"
-                    android:text="Takeoff"
+                    android:minWidth="48dp"
+                    android:text="@string/takeoff"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/buttonCamera1" />
 
@@ -85,7 +88,8 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minHeight="48dp"
-                    android:text="Land"
+                    android:minWidth="48dp"
+                    android:text="@string/land"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/buttonCamera2" />
 
@@ -96,7 +100,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minWidth="0px"
-                    android:text="Camera1"
+                    android:text="@string/camera1"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -107,7 +111,7 @@
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
                     android:minWidth="0px"
-                    android:text="Camera2"
+                    android:text="@string/camera2"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -118,7 +122,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="up"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/up"
                     app:layout_constraintBottom_toTopOf="@+id/b_down"
                     app:layout_constraintStart_toStartOf="@+id/b_down" />
 
@@ -129,7 +135,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="front"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/front"
                     app:layout_constraintBottom_toTopOf="@+id/b_back"
                     app:layout_constraintStart_toEndOf="@+id/b_ccw" />
 
@@ -140,7 +148,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="right"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/right"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent" />
 
@@ -151,7 +161,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="ccw"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/ccw"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
@@ -162,7 +174,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="back"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/back"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/b_ccw" />
 
@@ -173,7 +187,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="cw"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/cw"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/b_back" />
 
@@ -184,7 +200,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="down"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/down"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/b_right" />
 
@@ -195,7 +213,9 @@
                     android:background="#80000000"
                     android:insetTop="0dp"
                     android:insetBottom="0dp"
-                    android:text="left"
+                    android:minHeight="48dp"
+                    android:minWidth="48dp"
+                    android:text="@string/left"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toStartOf="@+id/b_down" />
             </androidx.constraintlayout.widget.ConstraintLayout>
