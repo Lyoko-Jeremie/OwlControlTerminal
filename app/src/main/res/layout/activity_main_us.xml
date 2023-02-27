@@ -124,7 +124,7 @@
                     android:insetBottom="0dp"
                     android:text="@string/up"
                     app:layout_constraintBottom_toTopOf="@+id/b_down"
-                    app:layout_constraintStart_toStartOf="@+id/b_down" />
+                    app:layout_constraintEnd_toEndOf="@+id/b_down" />
 
                 <Button
                     android:id="@+id/b_front"
@@ -135,7 +135,7 @@
                     android:insetBottom="0dp"
                     android:text="@string/front"
                     app:layout_constraintBottom_toTopOf="@+id/b_back"
-                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+                    app:layout_constraintStart_toStartOf="@+id/b_back" />
 
                 <Button
                     android:id="@+id/b_right"
@@ -168,7 +168,7 @@
                     android:insetBottom="0dp"
                     android:text="@string/back"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
+                    app:layout_constraintEnd_toStartOf="@+id/b_right" />
 
                 <Button
                     android:id="@+id/b_cw"
@@ -179,7 +179,7 @@
                     android:insetBottom="0dp"
                     android:text="@string/cw"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/b_back" />
+                    app:layout_constraintStart_toEndOf="@+id/b_down" />
 
                 <Button
                     android:id="@+id/b_down"
@@ -190,7 +190,7 @@
                     android:insetBottom="0dp"
                     android:text="@string/down"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/b_right" />
+                    app:layout_constraintStart_toEndOf="@+id/b_ccw" />
 
                 <Button
                     android:id="@+id/b_left"
@@ -201,7 +201,7 @@
                     android:insetBottom="0dp"
                     android:text="@string/left"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/b_down" />
+                    app:layout_constraintEnd_toStartOf="@+id/b_back" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </FrameLayout>
 
