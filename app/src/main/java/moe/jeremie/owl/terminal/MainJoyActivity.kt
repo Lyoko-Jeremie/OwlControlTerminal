@@ -21,7 +21,7 @@ class MainJoyActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainJoyBinding
 
-    private val controlViewModel: ControlViewModel by viewModels<ControlViewModel>()
+    private val controlViewModel: JoyStickViewModel by viewModels<JoyStickViewModel>()
 
     override fun onDestroy() {
         super.onDestroy()
