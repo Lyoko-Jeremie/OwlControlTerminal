@@ -64,14 +64,17 @@ class MainConfigActivity : AppCompatActivity() {
         }
 
         binding.buttonStart.setOnClickListener {
+            saveConfig()
             startActivity(Intent(this, MainActivity::class.java))
         }
 
         binding.buttonStartUS.setOnClickListener {
+            saveConfig()
             startActivity(Intent(this, MainUSActivity::class.java))
         }
 
         binding.buttonStartJoy.setOnClickListener {
+            saveConfig()
             startActivity(Intent(this, MainJoyActivity::class.java))
         }
 
