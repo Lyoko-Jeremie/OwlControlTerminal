@@ -37,7 +37,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
     private var portImageTcp: Int
 
     private var udpSocket: DatagramChannel
-//    private var udpSocket: DatagramSocket
+    private var stopSign: AtomicBoolean = AtomicBoolean(false)
 
 
     private var imageHttpUrl1: URL
@@ -117,6 +117,10 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
         runCmdUdp(app)
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        stopSign.set(true)
+    }
 
     private fun runCmdUdp(app: Application) {
 
@@ -376,25 +380,25 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                     }
                 ).build()
 
-            Log.v(TAG, "build " + request.url.toString())
+//            Log.v(TAG, "build " + request.url.toString())
 
             try {
                 client.newCall(request).execute().use { r ->
-                    Log.v(TAG, "execute")
+//                    Log.v(TAG, "execute")
 
                     if (r.code != 200) {
                         _popupMsg.postValue("responseCode " + r.code + " on " + num)
-                        Log.v(TAG, "responseCode " + r.code + " on " + num)
+//                        Log.v(TAG, "responseCode " + r.code + " on " + num)
                         return@getI false
                     }
-                    Log.v(TAG, "r.code" + r.code)
+//                    Log.v(TAG, "r.code" + r.code)
 
                     val b = r.body!!.bytes()
 
                     // https://stackoverflow.com/questions/13854742/byte-array-of-image-into-imageview
                     val bmp = BitmapFactory.decodeByteArray(b, 0, b.size)
 
-                    Log.v(TAG, "postValue")
+//                    Log.v(TAG, "postValue")
                     when (num) {
                         1 -> _bmp1.postValue(bmp)
                         2 -> _bmp2.postValue(bmp)
@@ -414,7 +418,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
 
         var c1LastOk = true
         var c2LastOk = true
-        while (true) {
+        while (!stopSign.get()) {
             if (enableBmp1.get()) {
                 if (c1LastOk) {
                     c1LastOk = getI(1)
