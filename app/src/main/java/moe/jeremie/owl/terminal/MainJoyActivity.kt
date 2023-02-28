@@ -90,24 +90,23 @@ class MainJoyActivity : AppCompatActivity() {
             }
 
             joyStickViewL.setOnJoyStickMove {
-                it.x
-                it.y
+                Log.v(TAG, "joyStickViewL")
+                sendJoyConSimpleCmd()
             }
             joyStickViewR.setOnJoyStickMove {
-                it.x
-                it.y
+                Log.v(TAG, "joyStickViewR")
+                sendJoyConSimpleCmd()
             }
-            joyStickViewR.getJoyStickState()
         }
 
 
 
         controlViewModel.bmp1.observe(this, Observer {
-            Log.v(TAG, "bmp1")
+//            Log.v(TAG, "bmp1")
             binding.cameraImageView1.setImageBitmap(it)
         })
         controlViewModel.bmp2.observe(this, Observer {
-            Log.v(TAG, "bmp2")
+//            Log.v(TAG, "bmp2")
             binding.cameraImageView2.setImageBitmap(it)
         })
 
@@ -136,6 +135,20 @@ class MainJoyActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun sendJoyConSimpleCmd() {
+        val leftJSState = binding.joyStickViewL.getJoyStickState()
+        val rightJSState = binding.joyStickViewR.getJoyStickState()
+        controlViewModel.cmdEventJoyCon.value =
+            CmdEvent(
+                Cmd.JoyConSimple, joyCon = JoyCon(
+                    leftRockerX = leftJSState.x,
+                    leftRockerY = leftJSState.y,
+                    rightRockerX = rightJSState.x,
+                    rightRockerY = rightJSState.y,
+                )
+            )
     }
 
 

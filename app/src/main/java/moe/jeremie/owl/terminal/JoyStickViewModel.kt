@@ -134,155 +134,68 @@ class JoyStickViewModel(application: Application) : AndroidViewModel(application
 
             cmdEvent.postValue(CmdEvent(Cmd.PING))
 
-            cmdEvent.asFlow().flowOn(Dispatchers.IO).collect {
-                var dataJson = JSONObject()
-                dataJson.put("packageId", it.id)
-
-                var ignoreThis = false
-                when (it.cmd) {
-                    Cmd.CALIBRATE -> dataJson.put("cmdId", 90)
-                    Cmd.PING -> dataJson.put("cmdId", 0)
-                    Cmd.BREAK -> dataJson.put("cmdId", 10)
-                    Cmd.TAKEOFF -> {
-                        dataJson.put("distance", it.moveDistance)
-                        dataJson.put("cmdId", 11)
-                    }
-                    Cmd.LAND -> dataJson.put("cmdId", 12)
-                    Cmd.MOVE -> {
-                        dataJson.put("cmdId", 13)
-                        dataJson.put("distance", it.moveDistance)
-                        when (it.move) {
-                            CmdMove.UP -> dataJson.put("forward", 1)
-                            CmdMove.DOWN -> dataJson.put("forward", 2)
-                            CmdMove.LEFT -> dataJson.put("forward", 3)
-                            CmdMove.RIGHT -> dataJson.put("forward", 4)
-                            CmdMove.FORWARD -> dataJson.put("forward", 5)
-                            CmdMove.BACK -> dataJson.put("forward", 6)
-                            CmdMove.IGNORE -> dataJson.put("forward", 0)
-                        }
-                    }
-                    Cmd.ROTATE -> {
-                        dataJson.put("cmdId", 14)
-                        dataJson.put("rote", it.rotateRote)
-                        when (it.rotate) {
-                            CmdRotate.IGNORE -> dataJson.put("rotate", 0)
-                            CmdRotate.CW -> dataJson.put("rotate", 1)
-                            CmdRotate.CCW -> dataJson.put("rotate", 2)
-                        }
-                    }
-                    Cmd.UNLOCK -> dataJson.put("cmdId", 92)
-                    Cmd.EmergencyStop -> dataJson.put("cmdId", 120)
-                    Cmd.JoyCon -> {
-                        ignoreThis = true
-                    }
-                    Cmd.JoyConSimple -> {
-                        ignoreThis = true
-                    }
-                    Cmd.JoyConGyro -> {
-                        dataJson.put("cmdId", 62)
-                        requireNotNull(it.joyConGyro) { "Cmd.JoyConGyro requireNotNull(it.joyConGyro)" }
-                        var dataJoyConGyro = JSONObject()
-                        dataJoyConGyro.put("x", it.joyConGyro.x)
-                        dataJoyConGyro.put("y", it.joyConGyro.y)
-                        dataJoyConGyro.put("z", it.joyConGyro.z)
-                        dataJoyConGyro.put("a", it.joyConGyro.a)
-                        dataJoyConGyro.put("b", it.joyConGyro.b)
-                        dataJoyConGyro.put("c", it.joyConGyro.c)
-                        dataJoyConGyro.put("d", it.joyConGyro.d)
-                        dataJson.put("JoyConGyro", dataJoyConGyro)
-                    }
-                }
-                if (ignoreThis) {
-                    // skip this package
-                    return@collect
-                }
-
-                val message: String = dataJson.toString()
-
-                Log.v(TAG, "message " + message)
-
-                val messageB = message.toByteArray()
-                try {
-                    udpSocket.write(ByteBuffer.wrap(messageB))
-
-//                    // https://stackoverflow.com/questions/19540715/send-and-receive-data-on-udp-socket-java-android
-//                    var udpPackage: DatagramPacket = DatagramPacket(
-//                        messageB, messageB.size,
-//                        serverIp, serverCmdPort
-//                    )
-//                    udpSocket.send(udpPackage)
-                } catch (e: java.net.PortUnreachableException) {
-                    _popupMsg.postValue(app.resources.getString(R.string.PortUnreachableException))
-                } catch (e: java.lang.Exception) {
-                    _popupMsg.postValue(e.toString())
-//                    throw e
-                }
-            }
-
-            while (!stopSign.get()) {
-                Thread.sleep(300);
-                val it = cmdEventJoyCon.value
-                if (it != null) {
+            viewModelScope.launch(Dispatchers.IO) {
+                cmdEvent.asFlow().flowOn(Dispatchers.IO).collect {
                     var dataJson = JSONObject()
                     dataJson.put("packageId", it.id)
 
                     var ignoreThis = false
-
                     when (it.cmd) {
-                        Cmd.CALIBRATE,
-                        Cmd.PING,
-                        Cmd.BREAK,
-                        Cmd.TAKEOFF,
-                        Cmd.LAND,
-                        Cmd.MOVE,
-                        Cmd.ROTATE,
-                        Cmd.UNLOCK,
-                        Cmd.EmergencyStop -> {
-                            ignoreThis = true
+                        Cmd.CALIBRATE -> dataJson.put("cmdId", 90)
+                        Cmd.PING -> dataJson.put("cmdId", 0)
+                        Cmd.BREAK -> dataJson.put("cmdId", 10)
+                        Cmd.TAKEOFF -> {
+                            dataJson.put("distance", it.moveDistance)
+                            dataJson.put("cmdId", 11)
                         }
+                        Cmd.LAND -> dataJson.put("cmdId", 12)
+                        Cmd.MOVE -> {
+                            dataJson.put("cmdId", 13)
+                            dataJson.put("distance", it.moveDistance)
+                            when (it.move) {
+                                CmdMove.UP -> dataJson.put("forward", 1)
+                                CmdMove.DOWN -> dataJson.put("forward", 2)
+                                CmdMove.LEFT -> dataJson.put("forward", 3)
+                                CmdMove.RIGHT -> dataJson.put("forward", 4)
+                                CmdMove.FORWARD -> dataJson.put("forward", 5)
+                                CmdMove.BACK -> dataJson.put("forward", 6)
+                                CmdMove.IGNORE -> dataJson.put("forward", 0)
+                            }
+                        }
+                        Cmd.ROTATE -> {
+                            dataJson.put("cmdId", 14)
+                            dataJson.put("rote", it.rotateRote)
+                            when (it.rotate) {
+                                CmdRotate.IGNORE -> dataJson.put("rotate", 0)
+                                CmdRotate.CW -> dataJson.put("rotate", 1)
+                                CmdRotate.CCW -> dataJson.put("rotate", 2)
+                            }
+                        }
+                        Cmd.UNLOCK -> dataJson.put("cmdId", 92)
+                        Cmd.EmergencyStop -> dataJson.put("cmdId", 120)
                         Cmd.JoyCon -> {
-                            dataJson.put("cmdId", 60)
-                            requireNotNull(it.joyCon) { "Cmd.JoyCon requireNotNull(it.joyCon)" }
-                            var dataJoyCon = JSONObject()
-                            dataJoyCon.put("leftRockerX", it.joyCon.leftRockerX)
-                            dataJoyCon.put("leftRockerY", it.joyCon.leftRockerY)
-                            dataJoyCon.put("rightRockerX", it.joyCon.rightRockerX)
-                            dataJoyCon.put("rightRockerY", it.joyCon.rightRockerY)
-                            dataJoyCon.put("leftBackTop", it.joyCon.leftBackTop)
-                            dataJoyCon.put("leftBackBottom", it.joyCon.leftBackBottom)
-                            dataJoyCon.put("rightBackTop", it.joyCon.rightBackTop)
-                            dataJoyCon.put("rightBackBottom", it.joyCon.rightBackBottom)
-                            dataJoyCon.put("CrossUp", it.joyCon.CrossUp)
-                            dataJoyCon.put("CrossDown", it.joyCon.CrossDown)
-                            dataJoyCon.put("CrossLeft", it.joyCon.CrossLeft)
-                            dataJoyCon.put("CrossRight", it.joyCon.CrossRight)
-                            dataJoyCon.put("X", it.joyCon.A)
-                            dataJoyCon.put("B", it.joyCon.B)
-                            dataJoyCon.put("X", it.joyCon.X)
-                            dataJoyCon.put("Y", it.joyCon.Y)
-                            dataJoyCon.put("buttonAdd", it.joyCon.buttonAdd)
-                            dataJoyCon.put("buttonReduce", it.joyCon.buttonReduce)
-                            dataJson.put("JoyCon", dataJoyCon)
+                            ignoreThis = true
                         }
                         Cmd.JoyConSimple -> {
-                            dataJson.put("cmdId", 61)
-                            requireNotNull(it.joyCon) { "Cmd.JoyConSimple requireNotNull(it.joyCon)" }
-                            var dataJoyConSimple = JSONObject()
-                            dataJoyConSimple.put("leftRockerX", it.joyCon.leftRockerX)
-                            dataJoyConSimple.put("leftRockerY", it.joyCon.leftRockerY)
-                            dataJoyConSimple.put("rightRockerX", it.joyCon.rightRockerX)
-                            dataJoyConSimple.put("rightRockerY", it.joyCon.rightRockerY)
-                            dataJoyConSimple.put("buttonAdd", it.joyCon.buttonAdd)
-                            dataJoyConSimple.put("buttonReduce", it.joyCon.buttonReduce)
-                            dataJson.put("JoyConSimple", dataJoyConSimple)
+                            ignoreThis = true
                         }
                         Cmd.JoyConGyro -> {
-                            ignoreThis = true
+                            dataJson.put("cmdId", 62)
+                            requireNotNull(it.joyConGyro) { "Cmd.JoyConGyro requireNotNull(it.joyConGyro)" }
+                            var dataJoyConGyro = JSONObject()
+                            dataJoyConGyro.put("x", it.joyConGyro.x)
+                            dataJoyConGyro.put("y", it.joyConGyro.y)
+                            dataJoyConGyro.put("z", it.joyConGyro.z)
+                            dataJoyConGyro.put("a", it.joyConGyro.a)
+                            dataJoyConGyro.put("b", it.joyConGyro.b)
+                            dataJoyConGyro.put("c", it.joyConGyro.c)
+                            dataJoyConGyro.put("d", it.joyConGyro.d)
+                            dataJson.put("JoyConGyro", dataJoyConGyro)
                         }
                     }
                     if (ignoreThis) {
                         // skip this package
-                        continue
+                        return@collect
                     }
 
                     val message: String = dataJson.toString()
@@ -301,11 +214,107 @@ class JoyStickViewModel(application: Application) : AndroidViewModel(application
 //                    udpSocket.send(udpPackage)
                     } catch (e: java.net.PortUnreachableException) {
                         _popupMsg.postValue(app.resources.getString(R.string.PortUnreachableException))
-                        return@launch
                     } catch (e: java.lang.Exception) {
                         _popupMsg.postValue(e.toString())
-                        return@launch
 //                    throw e
+                    }
+                }
+            }
+
+
+            viewModelScope.launch(Dispatchers.IO) {
+                while (!stopSign.get()) {
+                    Thread.sleep(300);
+                    val it = cmdEventJoyCon.value
+                    if (it != null) {
+                        var dataJson = JSONObject()
+                        dataJson.put("packageId", it.id)
+
+                        var ignoreThis = false
+
+                        when (it.cmd) {
+                            Cmd.CALIBRATE,
+                            Cmd.PING,
+                            Cmd.BREAK,
+                            Cmd.TAKEOFF,
+                            Cmd.LAND,
+                            Cmd.MOVE,
+                            Cmd.ROTATE,
+                            Cmd.UNLOCK,
+                            Cmd.EmergencyStop -> {
+                                ignoreThis = true
+                            }
+                            Cmd.JoyCon -> {
+                                dataJson.put("cmdId", 60)
+                                requireNotNull(it.joyCon) { "Cmd.JoyCon requireNotNull(it.joyCon)" }
+                                var dataJoyCon = JSONObject()
+                                dataJoyCon.put("leftRockerX", it.joyCon.leftRockerX)
+                                dataJoyCon.put("leftRockerY", it.joyCon.leftRockerY)
+                                dataJoyCon.put("rightRockerX", it.joyCon.rightRockerX)
+                                dataJoyCon.put("rightRockerY", it.joyCon.rightRockerY)
+                                dataJoyCon.put("leftBackTop", it.joyCon.leftBackTop)
+                                dataJoyCon.put("leftBackBottom", it.joyCon.leftBackBottom)
+                                dataJoyCon.put("rightBackTop", it.joyCon.rightBackTop)
+                                dataJoyCon.put("rightBackBottom", it.joyCon.rightBackBottom)
+                                dataJoyCon.put("CrossUp", it.joyCon.CrossUp)
+                                dataJoyCon.put("CrossDown", it.joyCon.CrossDown)
+                                dataJoyCon.put("CrossLeft", it.joyCon.CrossLeft)
+                                dataJoyCon.put("CrossRight", it.joyCon.CrossRight)
+                                dataJoyCon.put("X", it.joyCon.A)
+                                dataJoyCon.put("B", it.joyCon.B)
+                                dataJoyCon.put("X", it.joyCon.X)
+                                dataJoyCon.put("Y", it.joyCon.Y)
+                                dataJoyCon.put("buttonAdd", it.joyCon.buttonAdd)
+                                dataJoyCon.put("buttonReduce", it.joyCon.buttonReduce)
+                                dataJson.put("JoyCon", dataJoyCon)
+                            }
+                            Cmd.JoyConSimple -> {
+                                dataJson.put("cmdId", 61)
+                                requireNotNull(it.joyCon) { "Cmd.JoyConSimple requireNotNull(it.joyCon)" }
+                                var dataJoyConSimple = JSONObject()
+                                dataJoyConSimple.put("leftRockerX", it.joyCon.leftRockerX)
+                                dataJoyConSimple.put("leftRockerY", it.joyCon.leftRockerY)
+                                dataJoyConSimple.put("rightRockerX", it.joyCon.rightRockerX)
+                                dataJoyConSimple.put("rightRockerY", it.joyCon.rightRockerY)
+                                dataJoyConSimple.put("leftBackTop", it.joyCon.leftBackTop)
+                                dataJoyConSimple.put("leftBackBottom", it.joyCon.leftBackBottom)
+                                dataJoyConSimple.put("rightBackTop", it.joyCon.rightBackTop)
+                                dataJoyConSimple.put("rightBackBottom", it.joyCon.rightBackBottom)
+                                dataJoyConSimple.put("buttonAdd", it.joyCon.buttonAdd)
+                                dataJoyConSimple.put("buttonReduce", it.joyCon.buttonReduce)
+                                dataJson.put("JoyConSimple", dataJoyConSimple)
+                            }
+                            Cmd.JoyConGyro -> {
+                                ignoreThis = true
+                            }
+                        }
+                        if (ignoreThis) {
+                            // skip this package
+                            continue
+                        }
+
+                        val message: String = dataJson.toString()
+
+                        Log.v(TAG, "message " + message)
+
+                        val messageB = message.toByteArray()
+                        try {
+                            udpSocket.write(ByteBuffer.wrap(messageB))
+
+//                    // https://stackoverflow.com/questions/19540715/send-and-receive-data-on-udp-socket-java-android
+//                    var udpPackage: DatagramPacket = DatagramPacket(
+//                        messageB, messageB.size,
+//                        serverIp, serverCmdPort
+//                    )
+//                    udpSocket.send(udpPackage)
+                        } catch (e: java.net.PortUnreachableException) {
+                            _popupMsg.postValue(app.resources.getString(R.string.PortUnreachableException))
+                            return@launch
+                        } catch (e: java.lang.Exception) {
+                            _popupMsg.postValue(e.toString())
+                            return@launch
+//                    throw e
+                        }
                     }
                 }
             }
