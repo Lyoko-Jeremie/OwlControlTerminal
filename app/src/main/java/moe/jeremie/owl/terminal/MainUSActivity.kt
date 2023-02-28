@@ -70,11 +70,11 @@ class MainUSActivity : AppCompatActivity() {
             }
             bUp.setOnClickListener {
                 controlViewModel.cmdEvent.value =
-                    CmdEvent(Cmd.MOVE, CmdMove.UP, moveDistance = moveOffset)
+                    CmdEvent(Cmd.MOVE, CmdMove.UP, moveDistance = 20)
             }
             bDown.setOnClickListener {
                 controlViewModel.cmdEvent.value =
-                    CmdEvent(Cmd.MOVE, CmdMove.DOWN, moveDistance = moveOffset)
+                    CmdEvent(Cmd.MOVE, CmdMove.DOWN, moveDistance = 20)
             }
             bLeft.setOnClickListener {
                 controlViewModel.cmdEvent.value =
@@ -102,7 +102,7 @@ class MainUSActivity : AppCompatActivity() {
             }
 
             buttonTakeoff.setOnClickListener {
-                controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF, moveDistance = moveOffset)
+                controlViewModel.cmdEvent.value = CmdEvent(Cmd.TAKEOFF, moveDistance = 100)
             }
             buttonLand.setOnClickListener {
                 controlViewModel.cmdEvent.value = CmdEvent(Cmd.LAND)
