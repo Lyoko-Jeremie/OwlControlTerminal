@@ -46,4 +46,5 @@
     <string name="back">后</string>
     <string name="cw">顺</string>
     <string name="ccw">逆</string>
+    <string name="owl_control_terminal">Owl手机控制终端</string>
 </resources>
