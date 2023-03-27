@@ -64,6 +64,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
     val bmp2: LiveData<Bitmap>
         get() = _bmp2
 
+    private var clientId: Int
+
     init {
         val app = application
         val sharedPref = app.getSharedPreferences(
@@ -74,6 +76,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
             app.resources.getString(R.string.config_name_AirplaneIp),
             app.resources.getString(R.string.config_default_AirplaneIp)
         ) ?: app.resources.getString(R.string.config_default_AirplaneIp)
+
+        clientId = (Math.random() * 1000000 + 200).toInt()
 
         serverCmdPort = sharedPref.getInt(
             app.resources.getString(R.string.config_name_PortCmd),
@@ -107,8 +111,8 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
             app.resources.getInteger(R.integer.config_default_PortImageTcp)
         ) ?: app.resources.getInteger(R.integer.config_default_PortImageTcp)
 
-        imageHttpUrl1 = URL("http", serverIp.hostAddress, portImageHttp, "/1")
-        imageHttpUrl2 = URL("http", serverIp.hostAddress, portImageHttp, "/2")
+        imageHttpUrl1 = URL("http", serverIp.hostAddress, portImageHttp, "/1?android=1")
+        imageHttpUrl2 = URL("http", serverIp.hostAddress, portImageHttp, "/2?android=1")
 //        imageHttpUrl2 = URL("http://${serverIp}:${portImageHttp}/2")
 
         Log.v(TAG, "imageHttpUrl1 $imageHttpUrl1")
@@ -141,6 +145,7 @@ class ControlViewModel(application: Application) : AndroidViewModel(application)
                 // UDP cmd
                 var dataJson = JSONObject()
                 dataJson.put("packageId", it.id)
+                dataJson.put("clientId", clientId)
 
                 when (it.cmd) {
                     Cmd.CALIBRATE -> dataJson.put("cmdId", 90)
